@@ -106,17 +106,22 @@ const WorkOrderTable: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === 'amount' && isNaN(Number(value))) {
-      return;
+    if (name === 'amount') {
+      // Allow numerical input and also allow updating existing value
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value.replace(/\D/g, ''), // Only digits allowed
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value.replace(/[^a-zA-Z\s]/g, ''), // Only letters and spaces for other fields
+      }));
     }
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'id' || name === 'amount' ? value.replace(/\D/g, '') : value.replace(/[^a-zA-Z\s]/g, ''),
-    }));
     setFormErrors((prev) => ({
       ...prev,
-      [name]: '',
+      [name]: '', // Clear error for the field
     }));
   };
 
@@ -181,163 +186,148 @@ const WorkOrderTable: React.FC = () => {
       </Box>
 
       <Box sx={{ height: 'auto', width: '100%' }}>
-      <DataGrid
-  rows={rows}
-  columns={columns}
-  initialState={{
-    pagination: {
-      paginationModel: { pageSize: 10 },
-    },
-  }}
-  pageSizeOptions={[5, 10, 20, 50]}
-  checkboxSelection
-  disableRowSelectionOnClick
-  autoHeight
-  sx={{
-    '& .MuiDataGrid-columnHeaders': {
-      backgroundColor: '#F5F8FA',
-    },
-    '& .MuiDataGrid-cell': {
-      borderBottom: '1px solid #E0E0E0',
-    },
-    '& .MuiDataGrid-cell:focus': {
-      outline: 'none',
-    },
-    '& .MuiDataGrid-row:hover': {
-      backgroundColor: '#F5F8FA',
-    },
-    '& .MuiDataGrid-row.Mui-selected': {
-      backgroundColor: '#FFEFEF',
-    },
-    '& .MuiDataGrid-root': {
-      width: '100%',
-    },
-  }}
-/>
-
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 10, page: 0 },
+            },
+          }}
+          pageSizeOptions={[5, 10, 20, 50]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          autoHeight
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: '#F5F8FA',
+            },
+            '& .MuiDataGrid-cell': {
+              borderBottom: '1px solid #E0E0E0',
+            },
+            '& .MuiDataGrid-cell:focus': {
+              outline: 'none',
+            },
+            '& .MuiDataGrid-row:hover': {
+              backgroundColor: '#F5F8FA',
+            },
+            '& .MuiDataGrid-row.Mui-selected': {
+              backgroundColor: '#FFEFEF',
+            },
+            '& .MuiDataGrid-root': {
+              width: '100%',
+            },
+          }}
+        />
       </Box>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-  <DialogTitle>{editingRow ? 'Edit Order' : 'New Order'}</DialogTitle>
-  <DialogContent>
-    <TextField
-      margin="dense"
-      name="donor"
-      label="Donor"
-      fullWidth
-      variant="outlined"
-      value={formData.donor}
-      onChange={handleChange}
-      error={!!formErrors.donor}
-      helperText={formErrors.donor}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-    />
-    <TextField
-      margin="dense"
-      name="panels"
-      label="Panels"
-      fullWidth
-      variant="outlined"
-      value={formData.panels}
-      onChange={handleChange}
-      error={!!formErrors.panels}
-      helperText={formErrors.panels}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-    />
-    
-    <TextField
-  margin="dense"
-  name="barcode"
-  label="Barcode"
-  fullWidth
-  variant="outlined"
-  value={formData.barcode}
-  onChange={(e) => {
-    const value = e.target.value.replace(/[^0-9]/g, ''); // Allows only digits
-    setFormData((prev) => ({
-      ...prev,
-      barcode: value,
-    }));
-    setFormErrors((prev) => ({
-      ...prev,
-      barcode: '', // Clear any previous errors
-    }));
-  }}
-  error={!!formErrors.barcode}
-  helperText={formErrors.barcode}
-  inputProps={{ inputMode: 'numeric' }} // Numeric keyboard on mobile devices
-/>
-
-    <TextField
-      margin="dense"
-      name="source"
-      label="Source"
-      fullWidth
-      variant="outlined"
-      value={formData.source}
-      onChange={handleChange}
-      error={!!formErrors.source}
-      helperText={formErrors.source}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-    />
-    <TextField
-      margin="dense"
-      name="date"
-      label="Date"
-      fullWidth
-      variant="outlined"
-      value={formData.date}
-      onChange={handleChange}
-      error={!!formErrors.date}
-      helperText={formErrors.date}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-
-    />
-    <TextField
-      margin="dense"
-      name="amount"
-      label="Amount"
-      fullWidth
-      variant="outlined"
-      value={formData.amount}
-      onChange={handleChange}
-      error={!!formErrors.amount}
-      helperText={formErrors.amount}
-      inputProps={{ pattern: '[0-9]*' }} // Restricts input to digits
-    />
-    <TextField
-      margin="dense"
-      name="observedBy"
-      label="Observed By"
-      fullWidth
-      variant="outlined"
-      value={formData.observedBy}
-      onChange={handleChange}
-      error={!!formErrors.observedBy}
-      helperText={formErrors.observedBy}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-    />
-    <TextField
-      margin="dense"
-      name="status"
-      label="Status"
-      fullWidth
-      variant="outlined"
-      value={formData.status}
-      onChange={handleChange}
-      error={!!formErrors.status}
-      helperText={formErrors.status}
-      inputProps={{ pattern: '[A-Za-z ]*' }} // Restricts input to letters and spaces
-    />
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={handleCloseDialog}>Cancel</Button>
-    <Button onClick={handleSave} variant="contained" sx={{ backgroundColor: '#00C49A' }}>
-      Save
-    </Button>
-  </DialogActions>
-</Dialog>
-
+        <DialogTitle>{editingRow ? 'Edit Order' : 'New Order'}</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            name="donor"
+            label="Donor"
+            fullWidth
+            variant="outlined"
+            value={formData.donor}
+            onChange={handleChange}
+            error={!!formErrors.donor}
+            helperText={formErrors.donor}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+          <TextField
+            margin="dense"
+            name="panels"
+            label="Panels"
+            fullWidth
+            variant="outlined"
+            value={formData.panels}
+            onChange={handleChange}
+            error={!!formErrors.panels}
+            helperText={formErrors.panels}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+          <TextField
+            margin="dense"
+            name="barcode"
+            label="Barcode"
+            fullWidth
+            variant="outlined"
+            value={formData.barcode}
+            onChange={handleChange}
+            error={!!formErrors.barcode}
+            helperText={formErrors.barcode}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+          <TextField
+            margin="dense"
+            name="source"
+            label="Source"
+            fullWidth
+            variant="outlined"
+            value={formData.source}
+            onChange={handleChange}
+            error={!!formErrors.source}
+            helperText={formErrors.source}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+          <TextField
+            margin="dense"
+            name="date"
+            label="Date"
+            fullWidth
+            variant="outlined"
+            value={formData.date}
+            onChange={handleChange}
+            error={!!formErrors.date}
+            helperText={formErrors.date}
+            inputProps={{ pattern: '\\d*' }}
+          />
+          <TextField
+            margin="dense"
+            name="amount"
+            label="Amount"
+            fullWidth
+            variant="outlined"
+            value={formData.amount}
+            onChange={handleChange}
+            error={!!formErrors.amount}
+            helperText={formErrors.amount}
+            inputProps={{ inputMode: 'numeric', pattern: '\\d*' }}
+          />
+          <TextField
+            margin="dense"
+            name="observedBy"
+            label="Observed By"
+            fullWidth
+            variant="outlined"
+            value={formData.observedBy}
+            onChange={handleChange}
+            error={!!formErrors.observedBy}
+            helperText={formErrors.observedBy}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+          <TextField
+            margin="dense"
+            name="status"
+            label="Status"
+            fullWidth
+            variant="outlined"
+            value={formData.status}
+            onChange={handleChange}
+            error={!!formErrors.status}
+            helperText={formErrors.status}
+            inputProps={{ pattern: '[A-Za-z ]*' }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSave} variant="contained" sx={{ backgroundColor: '#00C49A' }}>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
