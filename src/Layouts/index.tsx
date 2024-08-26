@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Fragment } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 import { DefaultTheme, ThemeProvider } from 'styled-components';
 import themes from './themes';
 import { Layout, LayoutContent, LayoutFooter, LayoutContainer, LayoutColumns, LayoutColumn } from '@paljs/ui/Layout';
@@ -7,22 +7,23 @@ import { SidebarBody, SidebarRefObject, Sidebar } from '@paljs/ui/Sidebar';
 import Header from './Header';
 import SimpleLayout from './SimpleLayout';
 import { useRouter } from 'next/router';
-
 import { Menu, MenuRefObject } from '@paljs/ui/Menu';
 import Link from 'next/link';
 import menuItems from './menuItem';
 import SEO, { SEOProps } from 'components/SEO';
 
-const getDefaultTheme = (): DefaultTheme['name'] => {
-  if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-    return localStorage.getItem('theme') as DefaultTheme['name'];
-  } else {
-    const hours = new Date().getHours();
-    return hours > 6 && hours < 19 ? 'default' : 'dark';
-  }
-};
+// Commenting out this function to disable dynamic theme change
+// const getDefaultTheme = (): DefaultTheme['name'] => {
+//   if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+//     return localStorage.getItem('theme') as DefaultTheme['name'];
+//   } else {
+//     const hours = new Date().getHours();
+//     return hours > 6 && hours < 19 ? 'default' : 'dark';
+//   }
+// };
 
 const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
+  // Set a static theme; do not use dynamic theme based on time or local storage
   const [theme, setTheme] = useState<DefaultTheme['name']>('default');
   const [dir, setDir] = useState<'ltr' | 'rtl'>('ltr');
   const sidebarRef = useRef<SidebarRefObject | null>(null);
@@ -42,12 +43,13 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
     }
   };
 
-  useEffect(() => {
-    const localTheme = getDefaultTheme();
-    if (localTheme !== theme && theme === 'default') {
-      setTheme(localTheme);
-    }
-  }, [theme]);
+  // Commenting out useEffect for dynamic theme setting
+  // useEffect(() => {
+  //   const localTheme = getDefaultTheme();
+  //   if (localTheme !== theme && theme === 'default') {
+  //     setTheme(localTheme);
+  //   }
+  // }, [theme]);
 
   const changeDir = () => {
     const newDir = dir === 'ltr' ? 'rtl' : 'ltr';

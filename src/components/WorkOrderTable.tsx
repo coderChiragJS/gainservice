@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  InputAdornment,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -34,7 +35,8 @@ interface FormData {
 
 const WorkOrderTable: React.FC = () => {
   const rows = useSelector((state: RootState) => state.workOrders.rows);
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>(); // Correct typing for useDispatch
+
   const [openDialog, setOpenDialog] = useState(false);
   const [editingRow, setEditingRow] = useState<FormData | null>(null);
   const [formData, setFormData] = useState<FormData>({
@@ -90,8 +92,8 @@ const WorkOrderTable: React.FC = () => {
   const handleSave = () => {
     if (!validateForm()) return;
 
-    if (editingRow && editingRow.id) {
-      dispatch(updateRow({ ...formData, id: editingRow.id }));
+    if (editingRow && editingRow.id !== '') {
+      dispatch(updateRow({ ...formData, id: editingRow.id as number })); // Cast id to number
     } else {
       const newId = rows.length > 0 ? Math.max(...rows.map((row) => row.id)) + 1 : 1;
       dispatch(addRow({ ...formData, id: newId }));
@@ -282,8 +284,9 @@ const WorkOrderTable: React.FC = () => {
             onChange={handleChange}
             error={!!formErrors.date}
             helperText={formErrors.date}
-            inputProps={{ pattern: '\\d*' }}
+            inputProps={{ pattern: '\\d{2}/\\d{2}/\\d{4}' }} // Updated regex pattern for DD/MM/YYYY
           />
+
           <TextField
             margin="dense"
             name="amount"
@@ -295,6 +298,9 @@ const WorkOrderTable: React.FC = () => {
             error={!!formErrors.amount}
             helperText={formErrors.amount}
             inputProps={{ inputMode: 'numeric', pattern: '\\d*' }}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">$</InputAdornment>,
+            }}
           />
           <TextField
             margin="dense"
