@@ -1,6 +1,7 @@
 // workOrdersSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { rows as dummyRows } from 'dummyData'; // Adjust path as needed
+import { CalendarState } from './calendarSlice';
 
 interface RowData {
   id: number;
@@ -21,6 +22,13 @@ interface WorkOrdersState {
 const initialState: WorkOrdersState = {
   rows: dummyRows,
 };
+
+
+export interface AppState {
+  workOrders: WorkOrdersState;
+  calendar: CalendarState;
+
+}
 
 const workOrdersSlice = createSlice({
   name: 'workOrders',

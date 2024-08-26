@@ -3,9 +3,10 @@ import { createWrapper } from 'next-redux-wrapper';
 import workOrdersReducer from './workOrdersSlice';
 import calendarReducer from './calendarSlice';
 import { loadState, saveState } from 'utils/localStorage';
+import { AppState } from './workOrdersSlice';
 
 const makeStore = () => {
-  const preloadedState = loadState();
+  const preloadedState: AppState = loadState() as AppState;
 
   const store = configureStore({
     reducer: {

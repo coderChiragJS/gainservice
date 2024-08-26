@@ -8,7 +8,7 @@ type CalendarEvent = {
   type: 'event' | 'reminder';
 };
 
-interface CalendarState {
+ export interface CalendarState {
   events: CalendarEvent[];
 }
 
