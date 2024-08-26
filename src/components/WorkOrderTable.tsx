@@ -109,10 +109,14 @@ const WorkOrderTable: React.FC = () => {
     const { name, value } = e.target;
 
     if (name === 'amount') {
-      // Allow numerical input and also allow updating existing value
       setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/\D/g, ''), // Only digits allowed
+        [name]: value.replace(/\D/g, ''), // Only digits allowed for amount
+      }));
+    } else if (name === 'date') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value.replace(/[^0-9/]/g, ''), // Only numbers and '/' for date
       }));
     } else {
       setFormData((prev) => ({
@@ -284,7 +288,11 @@ const WorkOrderTable: React.FC = () => {
             onChange={handleChange}
             error={!!formErrors.date}
             helperText={formErrors.date}
-            inputProps={{ pattern: '\\d{2}/\\d{2}/\\d{4}' }} // Updated regex pattern for DD/MM/YYYY
+            inputProps={{
+              pattern: '\\d{2}/\\d{2}/\\d{4}', // Regex for date format DD/MM/YYYY
+              placeholder: 'DD/MM/YYYY', // Placeholder to guide users
+              maxLength: 10, // Max length to ensure format
+            }}
           />
 
           <TextField
