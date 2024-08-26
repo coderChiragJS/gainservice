@@ -108,10 +108,10 @@ const WorkOrderTable: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    if (name === 'amount') {
+    if (name === 'amount' || name === 'barcode') {
       setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/\D/g, ''), // Only digits allowed for amount
+        [name]: value.replace(/\D/g, ''), // Only digits allowed for amount and barcode
       }));
     } else if (name === 'date') {
       setFormData((prev) => ({
@@ -264,8 +264,9 @@ const WorkOrderTable: React.FC = () => {
             onChange={handleChange}
             error={!!formErrors.barcode}
             helperText={formErrors.barcode}
-            inputProps={{ pattern: '[A-Za-z ]*' }}
+            inputProps={{ inputMode: 'numeric', pattern: '\\d*' }} // Only numerical input allowed
           />
+
           <TextField
             margin="dense"
             name="source"
