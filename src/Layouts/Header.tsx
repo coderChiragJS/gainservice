@@ -113,23 +113,15 @@ const Header: React.FC<HeaderProps> = (props) => {
               },
             },
             {
-              content: (
-
-                <a className="logo">Admin Template</a>
-
-              ),
+              content: <a className="logo">Admin Template</a>,
             },
-            {
-
-            },
-            {
-
-            },
+            {},
+            {},
           ]}
         />
       </HeaderStyle>
 
-      <User image="url('/icons/icon-72x72.png')" name="chirag tankwal" title="react js developer" size="Medium" />
+      <User image="url('/icons/icon-72x72.png')" name="chirag tankwal" size="Medium" />
     </LayoutHeader>
   );
 };

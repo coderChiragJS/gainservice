@@ -1,5 +1,16 @@
-import React from 'react';
-import { Box, Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Radio, RadioGroup, Select, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Alert,
+  Box,
+  Button,
+  FormControlLabel,
+  Grid,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { styled } from '@mui/system';
 import Layout from 'Layouts';
 
@@ -14,73 +25,150 @@ const CustomButton = styled(Button)({
   },
 });
 
-const CustomSelect = styled(Select)({
-  backgroundColor: '#F5F8FA',
-});
-
 const CustomTextField = styled(TextField)({
   backgroundColor: '#F5F8FA',
 });
 
 const Home: React.FC = () => {
+  const [reportType, setReportType] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [dueDate, setDueDate] = useState('');
+  const [agency, setAgency] = useState('');
+  const [format, setFormat] = useState('');
+  const [useDate, setUseDate] = useState('collected');
+
+  const handleSubmit = () => {
+    alert('Submitted successfully');
+
+    console.log({
+      reportType,
+      startDate,
+      dueDate,
+      agency,
+      format,
+      useDate,
+    });
+  };
+
   return (
     <Layout title="Reports">
       <Box sx={{ padding: '2rem' }}>
-        <Typography variant="h4" gutterBottom>Reports</Typography>
+        <Typography variant="h4" gutterBottom>
+          Reports
+        </Typography>
 
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Select Report Type</InputLabel>
-              <CustomSelect>
-                <MenuItem value="">Report Type 1</MenuItem>
-                <MenuItem value="">Report Type 2</MenuItem>
-                <MenuItem value="">Report Type 3</MenuItem>
-              </CustomSelect>
-            </FormControl>
+            <CustomTextField
+              select
+              label="Select Report Type"
+              value={reportType}
+              onChange={(e) => setReportType(e.target.value)}
+              fullWidth
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    style: {
+                      backgroundColor: '#F5F8FA',
+                    },
+                  },
+                },
+              }}
+              InputLabelProps={{ shrink: true }}
+            >
+              <MenuItem value="report1">Report Type 1</MenuItem>
+              <MenuItem value="report2">Report Type 2</MenuItem>
+              <MenuItem value="report3">Report Type 3</MenuItem>
+            </CustomTextField>
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <CustomTextField label="Start Date" type="date" InputLabelProps={{ shrink: true }} fullWidth />
+            <CustomTextField
+              label="Start Date"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <CustomTextField label="Due Date" type="date" InputLabelProps={{ shrink: true }} fullWidth />
+            <CustomTextField
+              label="Due Date"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Agency</InputLabel>
-              <CustomSelect>
-                <MenuItem value="">Agency 1</MenuItem>
-                <MenuItem value="">Agency 2</MenuItem>
-                <MenuItem value="">Agency 3</MenuItem>
-              </CustomSelect>
-            </FormControl>
+            <CustomTextField
+              select
+              label="Agency"
+              value={agency}
+              onChange={(e) => setAgency(e.target.value)}
+              fullWidth
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    style: {
+                      backgroundColor: '#F5F8FA',
+                    },
+                  },
+                },
+              }}
+              InputLabelProps={{ shrink: true }}
+            >
+              <MenuItem value="agency1">Agency 1</MenuItem>
+              <MenuItem value="agency2">Agency 2</MenuItem>
+              <MenuItem value="agency3">Agency 3</MenuItem>
+            </CustomTextField>
           </Grid>
 
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel>Select Format</InputLabel>
-              <CustomSelect>
-                <MenuItem value="">PDF</MenuItem>
-                <MenuItem value="">Excel</MenuItem>
-                <MenuItem value="">Word</MenuItem>
-              </CustomSelect>
-            </FormControl>
+            <CustomTextField
+              select
+              label="Select Format"
+              value={format}
+              onChange={(e) => setFormat(e.target.value)}
+              fullWidth
+              SelectProps={{
+                MenuProps: {
+                  PaperProps: {
+                    style: {
+                      backgroundColor: '#F5F8FA',
+                    },
+                  },
+                },
+              }}
+              InputLabelProps={{ shrink: true }}
+            >
+              <MenuItem value="pdf">PDF</MenuItem>
+              <MenuItem value="excel">Excel</MenuItem>
+              <MenuItem value="word">Word</MenuItem>
+            </CustomTextField>
           </Grid>
         </Grid>
 
         <Box mt={4}>
           <Typography variant="h6">Use Date</Typography>
-          <RadioGroup defaultValue="collected" row>
-            <FormControlLabel value="collected" control={<Radio sx={{ color: '#00C49A', '&.Mui-checked': { color: '#00C49A' } }} />} label="Collected" />
+          <RadioGroup value={useDate} onChange={(e) => setUseDate(e.target.value)} row>
+            <FormControlLabel
+              value="collected"
+              control={<Radio sx={{ color: '#00C49A', '&.Mui-checked': { color: '#00C49A' } }} />}
+              label="Collected"
+            />
             {/* Add more radio buttons here if needed */}
           </RadioGroup>
         </Box>
 
         <Box mt={4} display="flex" justifyContent="flex-end">
-          <CustomButton variant="contained">Submit</CustomButton>
+          <CustomButton variant="contained" onClick={handleSubmit}>
+            Submit
+          </CustomButton>
         </Box>
       </Box>
     </Layout>

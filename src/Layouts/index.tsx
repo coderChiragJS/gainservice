@@ -7,8 +7,7 @@ import { SidebarBody, SidebarRefObject, Sidebar } from '@paljs/ui/Sidebar';
 import Header from './Header';
 import SimpleLayout from './SimpleLayout';
 import { useRouter } from 'next/router';
-import { EvaIcon } from '@paljs/ui/Icon';
-import { Button } from '@paljs/ui/Button';
+
 import { Menu, MenuRefObject } from '@paljs/ui/Menu';
 import Link from 'next/link';
 import menuItems from './menuItem';
@@ -26,10 +25,10 @@ const getDefaultTheme = (): DefaultTheme['name'] => {
 const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
   const [theme, setTheme] = useState<DefaultTheme['name']>('default');
   const [dir, setDir] = useState<'ltr' | 'rtl'>('ltr');
-  const sidebarRef = useRef<SidebarRefObject>(null);
+  const sidebarRef = useRef<SidebarRefObject | null>(null);
   const router = useRouter();
   const [menuState, setMenuState] = useState(false);
-  const menuRef = useRef<MenuRefObject>(null);
+  const menuRef = useRef<MenuRefObject | null>(null);
   const [seeHeader, setSeeHeader] = useState(true);
 
   const getState = (state?: 'hidden' | 'visible' | 'compacted' | 'expanded') => {
@@ -38,7 +37,9 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
 
   const changeTheme = (newTheme: DefaultTheme['name']) => {
     setTheme(newTheme);
-    typeof localStorage !== 'undefined' && localStorage.setItem('theme', newTheme);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('theme', newTheme);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
     if (localTheme !== theme && theme === 'default') {
       setTheme(localTheme);
     }
-  }, []);
+  }, [theme]);
 
   const changeDir = () => {
     const newDir = dir === 'ltr' ? 'rtl' : 'ltr';
@@ -61,7 +62,7 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
       <ThemeProvider theme={themes(theme, dir)}>
         <Fragment>
           <SimpleLayout />
-          <Layout evaIcons={icons} dir={dir} className={!authLayout ? 'auth-layout' : ''}>
+          <Layout evaIcons={icons} dir={dir} className={authLayout ? 'auth-layout' : ''}>
             {!authLayout && (
               <Header
                 dir={dir}
@@ -82,17 +83,33 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
                 >
                   {seeHeader && (
                     <header>
-                      <Button
-                        size="Tiny"
-                        status="Primary"
+                      <div
                         onClick={() => {
-                          setMenuState(!menuState);
+                          setMenuState((prevState) => !prevState);
                           menuRef.current?.toggle();
                         }}
-                        fullWidth
+                        style={{
+                          cursor: 'pointer',
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
                       >
-                        {menuState ? <EvaIcon name="arrow-circle-up" /> : <EvaIcon name="arrow-circle-down" />}
-                      </Button>
+                        <img
+                          src={
+                            menuState
+                              ? 'https://i.pinimg.com/originals/ac/0c/73/ac0c73d748ae70d2493de6fac113d98c.png'
+                              : 'https://i.pinimg.com/originals/ac/0c/73/ac0c73d748ae70d2493de6fac113d98c.png'
+                          }
+                          alt="Toggle Menu"
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </div>
                     </header>
                   )}
                   <SidebarBody>
@@ -101,7 +118,7 @@ const LayoutPage: React.FC<SEOProps> = ({ children, ...rest }) => {
                       className="sidebar-menu"
                       Link={Link}
                       ref={menuRef}
-                      items={menuItems}
+                      items={menuItems || []} // Ensure menuItems is always an array
                       currentPath={router.pathname}
                       toggleSidebar={() => sidebarRef.current?.hide()}
                     />
