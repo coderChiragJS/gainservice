@@ -1,4 +1,3 @@
-// dummyData.ts
 
 export type RowData = {
     id: number;

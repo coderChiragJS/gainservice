@@ -160,7 +160,6 @@ const Home: React.FC = () => {
               control={<Radio sx={{ color: '#00C49A', '&.Mui-checked': { color: '#00C49A' } }} />}
               label="Collected"
             />
-            {/* Add more radio buttons here if needed */}
           </RadioGroup>
         </Box>
 

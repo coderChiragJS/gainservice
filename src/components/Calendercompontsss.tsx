@@ -70,7 +70,7 @@ const CalendarComponent: React.FC = () => {
     );
     setOpenDialog(false);
   };
-  console.log(newEvent.start, newEvent.end); // Add this line to check the date values
+  console.log(newEvent.start, newEvent.end); 
 
   const eventStyleGetter = (event: any) => {
     const backgroundColor = event.type === 'event' ? '#3174ad' : '#ff9800';
@@ -185,8 +185,8 @@ const CalendarComponent: React.FC = () => {
         localizer={localizer}
         events={events.map((event) => ({
           ...event,
-          start: new Date(event.start), // Ensuring correct date format
-          end: new Date(event.end), // Ensuring correct date format
+          start: new Date(event.start), 
+          end: new Date(event.end), 
         }))}
         selectable
         onSelectSlot={handleSelectSlot}
@@ -226,7 +226,7 @@ const CalendarComponent: React.FC = () => {
             onClick={handleSaveEvent}
             variant="contained"
             color="primary"
-            disabled={!newEvent.title.trim()} // Disable if title is empty
+            disabled={!newEvent.title.trim()} 
           >
             Save
           </Button>

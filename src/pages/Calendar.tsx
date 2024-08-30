@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CalendarComponent from 'components/Calendercompontsss'; // Correct your component import path if needed
+import CalendarComponent from 'components/Calendercompontsss'; 
 import LayoutPage from 'Layouts';
 
 const Calendar: React.FC = () => {
@@ -10,7 +10,7 @@ const Calendar: React.FC = () => {
     }, []);
 
     if (!isClient) {
-        return null; // or return a loading indicator
+        return null; 
     }
 
     return (

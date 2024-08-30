@@ -35,7 +35,7 @@ interface FormData {
 
 const WorkOrderTable: React.FC = () => {
   const rows = useSelector((state: RootState) => state.workOrders.rows);
-  const dispatch = useDispatch<AppDispatch>(); // Correct typing for useDispatch
+  const dispatch = useDispatch<AppDispatch>(); 
 
   const [openDialog, setOpenDialog] = useState(false);
   const [editingRow, setEditingRow] = useState<FormData | null>(null);
@@ -93,7 +93,7 @@ const WorkOrderTable: React.FC = () => {
     if (!validateForm()) return;
 
     if (editingRow && editingRow.id !== '') {
-      dispatch(updateRow({ ...formData, id: editingRow.id as number })); // Cast id to number
+      dispatch(updateRow({ ...formData, id: editingRow.id as number })); 
     } else {
       const newId = rows.length > 0 ? Math.max(...rows.map((row) => row.id)) + 1 : 1;
       dispatch(addRow({ ...formData, id: newId }));
@@ -111,23 +111,23 @@ const WorkOrderTable: React.FC = () => {
     if (name === 'amount' || name === 'barcode') {
       setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/\D/g, ''), // Only digits allowed for amount and barcode
+        [name]: value.replace(/\D/g, ''), 
       }));
     } else if (name === 'date') {
       setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/[^0-9/]/g, ''), // Only numbers and '/' for date
+        [name]: value.replace(/[^0-9/]/g, ''), 
       }));
     } else {
       setFormData((prev) => ({
         ...prev,
-        [name]: value.replace(/[^a-zA-Z\s]/g, ''), // Only letters and spaces for other fields
+        [name]: value.replace(/[^a-zA-Z\s]/g, ''), 
       }));
     }
 
     setFormErrors((prev) => ({
       ...prev,
-      [name]: '', // Clear error for the field
+      [name]: '', 
     }));
   };
 
@@ -264,7 +264,7 @@ const WorkOrderTable: React.FC = () => {
             onChange={handleChange}
             error={!!formErrors.barcode}
             helperText={formErrors.barcode}
-            inputProps={{ inputMode: 'numeric', pattern: '\\d*' }} // Only numerical input allowed
+            inputProps={{ inputMode: 'numeric', pattern: '\\d*' }} 
           />
 
           <TextField
@@ -290,9 +290,9 @@ const WorkOrderTable: React.FC = () => {
             error={!!formErrors.date}
             helperText={formErrors.date}
             inputProps={{
-              pattern: '\\d{2}/\\d{2}/\\d{4}', // Regex for date format DD/MM/YYYY
-              placeholder: 'DD/MM/YYYY', // Placeholder to guide users
-              maxLength: 10, // Max length to ensure format
+              pattern: '\\d{2}/\\d{2}/\\d{4}', 
+              placeholder: 'DD/MM/YYYY', 
+              maxLength: 10,
             }}
           />
 

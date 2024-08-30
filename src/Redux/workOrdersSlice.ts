@@ -1,6 +1,6 @@
-// workOrdersSlice.ts
+
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { rows as dummyRows } from 'dummyData'; // Adjust path as needed
+import { rows as dummyRows } from 'dummyData'; 
 import { CalendarState } from './calendarSlice';
 
 interface RowData {
