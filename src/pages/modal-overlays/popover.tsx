@@ -6,10 +6,10 @@ import Popover from '@paljs/ui/Popover';
 import { Tabs, Tab } from '@paljs/ui/Tabs';
 import { Card, CardBody } from '@paljs/ui/Card';
 import { Button } from '@paljs/ui/Button';
-import Link from 'next/link';
 
 import Layout from 'Layouts';
 import { useRouter } from 'next/router';
+import { Link } from '@mui/material';
 
 export default function PopoverPage() {
   const router = useRouter();

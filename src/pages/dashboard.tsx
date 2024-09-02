@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  Grid,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, FormControlLabel, Grid, MenuItem, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import Layout from 'Layouts';
+// import Layout from 'Layouts';
+import LayoutPage from 'Layouts';
 
 const CustomButton = styled(Button)({
   backgroundColor: '#00C49A',
@@ -38,19 +29,28 @@ const Home: React.FC = () => {
 
   const handleSubmit = () => {
     alert('Submitted successfully');
-
-    console.log({
-      reportType,
-      startDate,
-      dueDate,
-      agency,
-      format,
-      useDate,
-    });
   };
+  //   console.log({
+  //     reportType,
+  //     startDate,
+  //     dueDate,
+  //     agency,
+  //     format,
+  //     useDate,
+  //   });
+  // };
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
 
   return (
-    <Layout title="Reports">
+    <LayoutPage>
       <Box sx={{ padding: '2rem' }}>
         <Typography variant="h4" gutterBottom>
           Reports
@@ -169,7 +169,7 @@ const Home: React.FC = () => {
           </CustomButton>
         </Box>
       </Box>
-    </Layout>
+    </LayoutPage>
   );
 };
 

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Button } from '@paljs/ui/Button';
 import { InputGroup } from '@paljs/ui/Input';
-import Link from 'next/link';
 
 import Layout from 'Layouts';
-import Auth, { Group } from 'components/Auth';
+import Auth from 'components/Auth';
 
 export default function ResetPassword() {
   return (
@@ -21,14 +20,6 @@ export default function ResetPassword() {
             Change Password
           </Button>
         </form>
-        <Group>
-          <Link href="/auth/login">
-            <a>Back to Log In</a>
-          </Link>
-          <Link href="/auth/register">
-            <a>Register</a>
-          </Link>
-        </Group>
       </Auth>
     </Layout>
   );

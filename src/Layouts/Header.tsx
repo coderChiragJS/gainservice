@@ -34,9 +34,6 @@ const HeaderStyle = styled.div`
   }
 `;
 
-
-
-
 interface HeaderProps {
   toggleSidebar: () => void;
   theme: {
@@ -48,36 +45,33 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
-  
   return (
-  
-      <LayoutHeader fixed>
-        <HeaderStyle>
-          <Actions
-            size="Medium"
-            actions={[
-              {
-                icon: { name: 'menu-2-outline' },
-                url: {
-                  onClick: props.toggleSidebar,
-                },
+    <LayoutHeader fixed>
+      <HeaderStyle>
+        <Actions
+          size="Medium"
+          actions={[
+            {
+              icon: { name: 'menu-2-outline' },
+              url: {
+                onClick: props.toggleSidebar,
               },
-              {
-                content: <a className="logo">Admin Template</a>,
-              },
-              {},
-              {},
-            ]}
-          />
-          {/* <div className="right">
+            },
+            // {
+            //   content: <p className="logo">Admin Template</p>,
+            // },
+            {},
+            {},
+          ]}
+        />
+        {/* <div className="right">
             {/* Use the SelectStyled component here */}
-            {/* <SelectStyled options={themeOptions()} onChange={(e:any) => props.theme.set(e.value)} /> */}
-          {/* </div>  */}
-        </HeaderStyle>
-    
-        <User image="url('/icons/icon-72x72.png')" name="chirag tankwal" size="Medium" />
-      </LayoutHeader>
-    );
-    
+        {/* <SelectStyled options={themeOptions()} onChange={(e:any) => props.theme.set(e.value)} /> */}
+        {/* </div>  */}
+      </HeaderStyle>
+
+      <User image="url('/icons/icon-72x72.png')" name="chirag tankwal" size="Medium" />
+    </LayoutHeader>
+  );
 };
 export default Header;

@@ -3,8 +3,8 @@ import { Card, CardBody } from '@paljs/ui/Card';
 import Row from '@paljs/ui/Row';
 import Col from '@paljs/ui/Col';
 import React from 'react';
-import Link from 'next/link';
 import Layout from 'Layouts';
+import { Link } from '@mui/material';
 
 const ActionsPage = () => {
   const items: ActionType[] = [

@@ -8,9 +8,9 @@ import Header from './Header';
 import SimpleLayout from './SimpleLayout';
 import { useRouter } from 'next/router';
 import { Menu, MenuRefObject } from '@paljs/ui/Menu';
-import Link from 'next/link';
 import menuItems from './menuItem';
 import SEO, { SEOProps } from 'components/SEO';
+import { Link } from '@mui/material';
 
 // Commenting out this function to disable dynamic theme change
 // const getDefaultTheme = (): DefaultTheme['name'] => {
